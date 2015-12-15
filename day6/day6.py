@@ -20,7 +20,10 @@ class Solver:
         elif action == 'off':
             return LIGHT_OFF
         else:
-            return toggleLight(light)
+            return self.toggleLight(light)
+
+    def toggleLight(self, light):
+        return light * -1
 
 
 class Lights:
@@ -64,10 +67,6 @@ class Instruction:
     def __repr__(self):
         return self.action, self.origin.getX() + ',' + self.origin.getY(),\
             self.departure.getX() + ',' + self.departure.getY()
-
-
-def toggleLight(light):
-        return light * -1
 
 
 def main():
