@@ -1,18 +1,24 @@
 def main():
     string = list("hxbxwxba")
     # string = list("zzzzzzz")
-    # string = list("cbbbbfxi")
-    for i in range(100):
-        if (not hasSequenceOfThreeIncrementalLetters(string) or
-               hasConfusingCharacters(string) or
-               not hasTwoPairsOfLetters(string)):
-            string = incrementString(list(string[::-1]), 0)
+    if (not hasSequenceOfThreeIncrementalLetters(string) or
+       not hasTwoPairsOfLetters(string)):
+        string = replaceConfusingCharacters(string)
+        string = incrementString(list(string[::-1]), 0)
 
     print "".join(string)
 
 
+def replaceConfusingCharacters(string):
+    replaced = str(string)
+    replaced.replace('i', 'j')
+    replaced.replace('l', 'm')
+    replaced.replace('o', 'p')
+    return replaced
+
+
 def incrementString(stringList, i):
-    if i + 1 > len(stringList):
+    if i > len(stringList):
         return stringList[::-1]
 
     if stringList[i] == "z":
@@ -42,13 +48,6 @@ def hasSequenceOfThreeIncrementalLetters(string):
             lettersInSequence = 0
 
         i += 1
-
-    return False
-
-
-def hasConfusingCharacters(string):
-    if 'i' in string or 'l' in string or 'o' in string:
-        return True
 
     return False
 
