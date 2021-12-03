@@ -13,16 +13,17 @@ fn get_input<'a>() -> Vec<String> {
 
 fn first_part() {
     let input = get_input();
-    let mut number_index = 0;
     let mut column_index = 0;
     let max = 12;
-    let mut zeroes = 0;
-    let mut ones = 0;
 
     let mut gamma = String::new();
     let mut epsilon = String::new();
 
     loop {
+        let mut number_index = 0;
+        let mut zeroes = 0;
+        let mut ones = 0;
+
         if column_index == max {
             break;
         }
@@ -50,9 +51,6 @@ fn first_part() {
             epsilon.push_str("1");
         }
 
-        ones = 0;
-        zeroes = 0;
-        number_index = 0;
         column_index += 1;
         println!("{} {}", gamma, epsilon);
     }
@@ -66,16 +64,17 @@ fn first_part() {
 fn second_part(i: Vec<String>) {
     let mut input = i.clone();
     let mut input_second_iteration = input.clone();
-    let mut number_index = 0;
     let mut column_index = 0;
     let max = 12;
-    let mut zeroes = 0;
-    let mut ones = 0;
 
     let mut oxigen_generator_rating = String::new();
     let mut co2 = String::new();
 
     loop {
+        let mut number_index = 0;
+        let mut zeroes = 0;
+        let mut ones = 0;
+
         if input.len() == 1 {
             println!("YES: {:?}", input);
             break;
@@ -153,17 +152,17 @@ fn second_part(i: Vec<String>) {
             oxigen_generator_rating.push_str("0");
         }
 
-        number_index = 0;
         column_index += 1;
-        ones = 0;
-        zeroes = 0;
         input = new_numbers;
     }
 
-    number_index = 0;
     column_index = 0;
 
     loop {
+        let mut number_index = 0;
+        let mut zeroes = 0;
+        let mut ones = 0;
+
         if input_second_iteration.len() == 1 {
             break;
         }
@@ -241,12 +240,8 @@ fn second_part(i: Vec<String>) {
             co2.push_str("1");
         }
 
-        ones = 0;
-        zeroes = 0;
-        number_index = 0;
         column_index += 1;
         input_second_iteration = new_numbers;
-        // println!("column_index, {}", column_index);
     }
 
     oxigen_generator_rating = input[0].clone();
