@@ -52,7 +52,6 @@ fn first_part() {
         }
 
         column_index += 1;
-        println!("{} {}", gamma, epsilon);
     }
 
     let final_gamma = isize::from_str_radix(&gamma, 2).unwrap();
@@ -76,7 +75,6 @@ fn second_part(i: Vec<String>) {
         let mut ones = 0;
 
         if input.len() == 1 {
-            println!("YES: {:?}", input);
             break;
         }
 
@@ -97,7 +95,7 @@ fn second_part(i: Vec<String>) {
 
         let mut new_numbers: Vec<String> = Vec::new();
 
-        if ones > zeroes {
+        if ones >= zeroes {
             number_index = 0;
             loop {
                 if number_index == input.len() {
@@ -106,25 +104,6 @@ fn second_part(i: Vec<String>) {
 
                 let character = input[number_index].chars().nth(column_index).unwrap();
                 if character == '1' {
-                    new_numbers.push(input[number_index].clone());
-                }
-
-                number_index += 1;
-            }
-
-            oxigen_generator_rating.push_str("1");
-        }
-
-        if ones == zeroes {
-            number_index = 0;
-            loop {
-                if number_index == input.len() {
-                    break;
-                }
-
-                let character = input[number_index].chars().nth(column_index).unwrap();
-                if character == '1' {
-                    println!("STRING {}", input_second_iteration[number_index].clone());
                     new_numbers.push(input[number_index].clone());
                 }
 
@@ -184,26 +163,7 @@ fn second_part(i: Vec<String>) {
 
         let mut new_numbers: Vec<String> = Vec::new();
 
-        if zeroes < ones {
-            number_index = 0;
-
-            loop {
-                if number_index == input_second_iteration.len() {
-                    break;
-                }
-
-                let character = input_second_iteration[number_index].chars().nth(column_index).unwrap();
-                if character == '0' {
-                    new_numbers.push(input_second_iteration[number_index].clone());
-                }
-
-                number_index += 1;
-            }
-
-            co2.push_str("0");
-        }
-
-        if ones == zeroes {
+        if zeroes <= ones {
             number_index = 0;
 
             loop {
@@ -249,13 +209,12 @@ fn second_part(i: Vec<String>) {
 
     let final_oxigen = isize::from_str_radix(&oxigen_generator_rating, 2).unwrap();
     let final_co2 = isize::from_str_radix(&co2, 2).unwrap();
-    println!("{} {}", final_oxigen , final_co2);
 
     println!("{}", final_oxigen * final_co2);
 }
 
 fn main() {
-    // first_part();
+    first_part();
     let input = get_input();
     second_part(input);
 }
