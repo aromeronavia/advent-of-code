@@ -13,34 +13,25 @@ fn get_input<'a>() -> Vec<String> {
 
 fn first_part() {
     let input = get_input();
-    let mut column_index = 0;
-    let max = 12;
 
     let mut gamma = String::new();
     let mut epsilon = String::new();
 
-    loop {
-        let mut number_index = 0;
+    for column_index in 0..12 {
         let mut zeroes = 0;
         let mut ones = 0;
 
-        if column_index == max {
+        if column_index == 12 {
             break;
         }
 
-        loop {
-            if number_index == input.len() {
-                break;
-            }
-
+        for number_index in 0..12 {
             if input[number_index].chars().nth(column_index).unwrap() == '1' {
                 ones += 1;
             }
             if input[number_index].chars().nth(column_index).unwrap() == '0' {
                 zeroes += 1;
             }
-
-            number_index += 1;
         }
 
         if ones > zeroes {
@@ -50,8 +41,6 @@ fn first_part() {
             gamma.push_str("0");
             epsilon.push_str("1");
         }
-
-        column_index += 1;
     }
 
     let final_gamma = isize::from_str_radix(&gamma, 2).unwrap();
@@ -62,9 +51,7 @@ fn first_part() {
 
 fn second_part(i: Vec<String>) {
     let mut input = i.clone();
-    let mut input_second_iteration = input.clone();
     let mut column_index = 0;
-    let max = 12;
 
     let mut oxigen_generator_rating = String::new();
     let mut co2 = String::new();
@@ -131,9 +118,10 @@ fn second_part(i: Vec<String>) {
             oxigen_generator_rating.push_str("0");
         }
 
-        column_index += 1;
         input = new_numbers;
     }
+
+    input = i.clone();
 
     column_index = 0;
 
@@ -142,19 +130,19 @@ fn second_part(i: Vec<String>) {
         let mut zeroes = 0;
         let mut ones = 0;
 
-        if input_second_iteration.len() == 1 {
+        if input.len() == 1 {
             break;
         }
 
         loop {
-            if number_index == input_second_iteration.len() {
+            if number_index == input.len() {
                 break;
             }
 
-            if input_second_iteration[number_index].chars().nth(column_index).unwrap() == '1' {
+            if input[number_index].chars().nth(column_index).unwrap() == '1' {
                 ones += 1;
             }
-            if input_second_iteration[number_index].chars().nth(column_index).unwrap() == '0' {
+            if input[number_index].chars().nth(column_index).unwrap() == '0' {
                 zeroes += 1;
             }
 
@@ -167,13 +155,13 @@ fn second_part(i: Vec<String>) {
             number_index = 0;
 
             loop {
-                if number_index == input_second_iteration.len() {
+                if number_index == input.len() {
                     break;
                 }
 
-                let character = input_second_iteration[number_index].chars().nth(column_index).unwrap();
+                let character = input[number_index].chars().nth(column_index).unwrap();
                 if character == '0' {
-                    new_numbers.push(input_second_iteration[number_index].clone());
+                    new_numbers.push(input[number_index].clone());
                 }
 
                 number_index += 1;
@@ -185,13 +173,13 @@ fn second_part(i: Vec<String>) {
         if ones < zeroes {
             number_index = 0;
             loop {
-                if number_index == input_second_iteration.len() {
+                if number_index == input.len() {
                     break;
                 }
 
-                let character = input_second_iteration[number_index].chars().nth(column_index).unwrap();
+                let character = input[number_index].chars().nth(column_index).unwrap();
                 if character == '1' {
-                    new_numbers.push(input_second_iteration[number_index].clone());
+                    new_numbers.push(input[number_index].clone());
                 }
 
                 number_index += 1;
@@ -201,11 +189,11 @@ fn second_part(i: Vec<String>) {
         }
 
         column_index += 1;
-        input_second_iteration = new_numbers;
+        input = new_numbers;
     }
 
     oxigen_generator_rating = input[0].clone();
-    co2 = input_second_iteration[0].clone();
+    co2 = input[0].clone();
 
     let final_oxigen = isize::from_str_radix(&oxigen_generator_rating, 2).unwrap();
     let final_co2 = isize::from_str_radix(&co2, 2).unwrap();
