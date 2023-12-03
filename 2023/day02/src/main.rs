@@ -30,79 +30,90 @@ fn first_part() {
 
 fn get_adjacent_numbers_sum(strings: &Vec<String>, row: usize, column: usize) -> i32 {
     let mut sum = 0;
-    let mut number_right_above_or_below = false;
+
+    if let Some(number) = number_left(strings, row, column) {
+        let var = find_left(strings.get(row).unwrap(), column - 1, String::from(number))
+            .parse::<i32>()
+            .unwrap();
+
+        sum += var;
+    }
+
+    if let Some(number) = number_right(strings, row, column) {
+        let var = find_left(strings.get(row).unwrap(), column + 2, String::from(number))
+            .parse::<i32>()
+            .unwrap();
+
+        sum += var;
+    }
 
     if let Some(number) = number_right_above(strings, row, column) {
         let left = find_left(strings.get(row - 1).unwrap(), column, String::from(number));
         let right = find_right(strings.get(row - 1).unwrap(), column + 1, String::from(""));
-        sum += format!("{}{}", left, right).parse::<i32>().unwrap();
+        let var = format!("{}{}", left, right).parse::<i32>().unwrap();
+        println!("Var number right above {}", var);
+        sum += var;
+    } else {
+        if let Some(number) = number_top_left(strings, row, column) {
+            let var = find_left(
+                strings.get(row - 1).unwrap(),
+                column - 1,
+                String::from(number),
+            )
+            .parse::<i32>()
+            .unwrap();
 
-        number_right_above_or_below = true;
+            println!("Var top left: {}", var);
+
+            sum += var;
+        }
+
+        if let Some(number) = number_top_right(strings, row, column) {
+            let var = find_right(
+                strings.get(row - 1).unwrap(),
+                column + 2,
+                String::from(number),
+            )
+            .parse::<i32>()
+            .unwrap();
+
+            println!("Var top right: {}", var);
+
+            sum += var;
+        }
     }
     if let Some(number) = number_right_below(strings, row, column) {
         let left = find_left(strings.get(row + 1).unwrap(), column, String::from(number));
         let right = find_right(strings.get(row + 1).unwrap(), column + 1, String::from(""));
-        sum += format!("{}{}", left, right).parse::<i32>().unwrap();
-
-        number_right_above_or_below = true;
-    }
-
-    if number_right_above_or_below {
-        return sum;
-    }
-
-    if let Some(number) = number_top_left(strings, row, column) {
-        let var = find_left(
-            strings.get(row - 1).unwrap(),
-            column - 1,
-            String::from(number),
-        )
-        .parse::<i32>()
-        .unwrap();
-
-        println!("Var top left: {}", var);
-
+        let var = format!("{}{}", left, right).parse::<i32>().unwrap();
+        println!("Var number right below {}", var);
         sum += var;
-    }
+    } else {
+        if let Some(number) = number_bottom_left(strings, row, column) {
+            let var = find_left(
+                strings.get(row + 1).unwrap(),
+                column - 1,
+                String::from(number),
+            )
+            .parse::<i32>()
+            .unwrap();
 
-    if let Some(number) = number_top_right(strings, row, column) {
-        let var = find_right(
-            strings.get(row - 1).unwrap(),
-            column + 2,
-            String::from(number),
-        )
-        .parse::<i32>()
-        .unwrap();
+            println!("Var bottom left: {}", var);
+            sum += var;
+        }
 
-        println!("Var top right: {}", var);
+        if let Some(number) = number_bottom_right(strings, row, column) {
+            let var = find_right(
+                strings.get(row + 1).unwrap(),
+                column + 2,
+                String::from(number),
+            )
+            .parse::<i32>()
+            .unwrap();
 
-        sum += var;
-    }
-
-    if let Some(number) = number_bottom_left(strings, row, column) {
-        let var = find_left(
-            strings.get(row + 1).unwrap(),
-            column - 1,
-            String::from(number),
-        )
-        .parse::<i32>()
-        .unwrap();
-
-        println!("Var bottom left: {}", var);
-        sum += var;
-    }
-
-    if let Some(number) = number_bottom_right(strings, row, column) {
-        let var = find_right(
-            strings.get(row + 1).unwrap(),
-            column + 2,
-            String::from(number),
-        )
-        .parse::<i32>()
-        .unwrap();
-
-        println!("Var bottom right  {}", var);
-        sum += var;
+            println!("Var bottom right  {}", var);
+            sum += var;
+        }
     }
 
     sum
@@ -116,6 +127,32 @@ fn number_right_above(strings: &Vec<String>, row: usize, column: usize) -> Optio
     let row_string = strings.get(row - 1).unwrap();
     if row_string.chars().nth(column).unwrap().is_digit(10) {
         return Some(row_string.chars().nth(column).unwrap());
+    }
+
+    None
+}
+
+fn number_left(strings: &Vec<String>, row: usize, column: usize) -> Option<char> {
+    if column == 0 {
+        return None;
+    }
+
+    let row_string = strings.get(row).unwrap();
+    if row_string.chars().nth(column - 1).unwrap().is_digit(10) {
+        return Some(row_string.chars().nth(column - 1).unwrap());
+    }
+
+    None
+}
+
+fn number_right(strings: &Vec<String>, row: usize, column: usize) -> Option<char> {
+    if column == strings.get(0).unwrap().len() - 1 {
+        return None;
+    }
+
+    let row_string = strings.get(row).unwrap();
+    if row_string.chars().nth(column + 1).unwrap().is_digit(10) {
+        return Some(row_string.chars().nth(column + 1).unwrap());
     }
 
     None
