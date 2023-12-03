@@ -1,5 +1,7 @@
 use std::fs;
-static SYMBOLS: [char; 4] = ['*', '#', '$', '+'];
+static SYMBOLS: [char; 14] = [
+    '*', '#', '$', '+', '&', '\\', '/', '@', '%', '!', '(', ')', '-', '=',
+];
 
 fn get_input() -> Vec<String> {
     let input = fs::read_to_string("src/input").expect("Unable to read file");
@@ -59,13 +61,11 @@ fn get_adjacent_numbers_sum(strings: &Vec<String>, row: usize, column: usize) ->
                 strings.get(row - 1).unwrap(),
                 column - 1,
                 String::from(number),
-            )
-            .parse::<i32>()
-            .unwrap();
+            );
 
             println!("Var top left: {}", var);
 
-            sum += var;
+            sum += var.parse::<i32>().unwrap();
         }
 
         if let Some(number) = number_top_right(strings, row, column) {
@@ -231,7 +231,8 @@ fn find_left(string: &String, index: usize, number: String) -> String {
 
     match string.get(index - 1..index) {
         Some(char) => {
-            if char != "." {
+            if !SYMBOLS.contains(&char.parse::<char>().unwrap()) && char != "." {
+                println!("Char: {}", char);
                 let appended_string = format!("{}{}", char, number);
                 find_left(string, index - 1, appended_string)
             } else {
@@ -243,9 +244,13 @@ fn find_left(string: &String, index: usize, number: String) -> String {
 }
 
 fn find_right(string: &String, index: usize, number: String) -> String {
+    if index == string.len() {
+        return number.clone();
+    }
+
     match string.get(index..index + 1) {
         Some(char) => {
-            if char != "." {
+            if !SYMBOLS.contains(&char.parse::<char>().unwrap()) && char != "." {
                 let appended_string = format!("{}{}", number, char);
                 find_right(string, index + 1, appended_string)
             } else {
